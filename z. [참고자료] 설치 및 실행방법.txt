@@ -1,0 +1,21 @@
+★★★ 프로그램 설치 및 실행방법 ★★★
+
+★ 설치
+ 1. nodejs 최신 버전 다운로드
+ 2. VSCode 최신 버전 다운로드(개발시 필요)
+ 끝.
+
+★ 실행
+ - 개발 환경(VSCode 필요)
+  1. VSCode 터미널 2개 띄우기(터미널1, 터미널2)
+  2. 터미널1에 명령어 입력 : node .\server\module\Server.js (리눅스일시, npm run linux-dev)
+  3. 터미널2에 명령어 입력 : webpack --watch
+  끝.
+ - 운영 환경
+  1. 터미널(CMD, Powershell, 터미널 등 명령어창) 띄우기
+  2. 프로그램 소스가 있는 위치로 이동 ex)cd /.../web-server
+  3. 명령어 입력1 : webpack
+  4. 명령어 입력2 : node .\server\module\Server.js
+  끝.
+
+끝.

@@ -1,0 +1,37 @@
+@media screen and (min-width:1024px) {
+	/* Desktop */
+}
+@media screen and (max-width:767px){ 
+	/* Mobile */
+    .App {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.1fr 3.7fr 0.1fr;
+        grid-template-areas:
+            "header"
+            "main"
+            "nav";
+    }
+
+    .logo{
+        text-align: center;
+    }
+
+    nav > ul{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .menu{
+        display: none;
+    }
+
+    .icon{
+        display: grid;
+        align-items: center;
+    }
+
+    footer{
+        display: none;
+    }
+
+}

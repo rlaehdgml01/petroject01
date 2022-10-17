@@ -1,0 +1,29 @@
+Mysql workbench 쿼리문입력
+
+use pet_care_matching;
+select * from care_request_bbs;
+INSERT INTO care_request_bbs (
+	care_request_number
+	, care_request_title
+    , care_request_content
+    , pet_name
+    , pet_age
+    , pet_animal_type
+    , pet_animal_kind
+    , pet_sex
+    , care_request_insert_datetime
+    , care_request_insert_user_id
+) VALUES (
+	(SELECT IFNULL(MAX(A.care_request_number), 0) + 1 FROM care_request_bbs A)
+    , '케어 요청 게시물 제목'
+    , '케어 요청 게시물 내용'
+    , '팻 이름'
+    , 5
+    , '팻의 동물종'
+    , '팻의 동물 품종'
+    , '팻의 성별'
+    , NOW()
+    , 'test_user'
+);
+
+
