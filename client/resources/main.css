@@ -55,3 +55,7 @@ footer{
 td{
     padding: 1rem;
 }
+
+tr.tr-hover:hover{
+    background-color: #6799FF;
+}

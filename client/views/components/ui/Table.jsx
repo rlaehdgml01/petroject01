@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import '../../../resources/main.css';
 
-export default function Table({ data, header }) {
+export default function Table({ data, header, onClick }) {
   return (
     <table>
       <thead>
@@ -18,10 +18,7 @@ export default function Table({ data, header }) {
       <tbody>
         {data.map((item, index) => {
           return (
-            <tr key={index}>
-              <td className="td-style">
-                <input type="checkbox" />
-              </td>
+            <tr key={index} className='tr-hover' onClick={()=>onClick(item)}>
               <td>{item.care_request_number}</td>
               <td>{item.care_request_title}</td>
               <td>{item.care_request_insert_datetime}</td>

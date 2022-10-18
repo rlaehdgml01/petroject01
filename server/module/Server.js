@@ -124,3 +124,85 @@ webServer.get("/careRequestSelectList.json", function (request, response) {
       response.json(error);
     });
 });
+
+// careRequest 게시글 조회 기능
+webServer.get('/careRequestSelectOne.json', function (request, response) {
+  let queryParam = [request.query['care_request_number']];
+  console.log(request.query);
+
+  const queryResult = MysqlConnection.queryExcute(`
+    SELECT * FROM care_request_bbs WHERE care_request_number = ?
+  `,queryParam);
+
+  queryResult.then(function (result) {
+    console.log(result.rows);
+    response.json(result.rows);
+  }).catch(function (error) {
+    console.log('error : '+ error);
+    response.json(error)
+  })
+});
+
+//수정
+webServer.post("/careRequestUpdate.json", function (request, response) {
+  console.log("/careRequestUpdate.json request body : ", request.body);
+
+  let queryParam = [
+    request.body["care_request_title"],
+    request.body["care_request_content"],
+    request.body["pet_name"],
+    request.body["pet_age"],
+    request.body["pet_animal_type"],
+    request.body["pet_animal_kind"],
+    request.body["pet_sex"],
+    request.body["care_request_number"]
+  ];
+
+  const queryResult = MysqlConnection.queryExcute(
+    `
+    UPDATE
+      care_request_bbs
+    SET
+      care_request_title = ?
+        , care_request_content = ?
+        , pet_name = ?
+        , pet_age = ?
+        , pet_animal_type = ?
+        , pet_animal_kind = ?
+        , pet_sex = ?
+    WHERE
+      care_request_number = ?
+  `,
+    queryParam
+  );
+
+  queryResult
+    .then(function (result) {
+      response.json(result.rows);
+    })
+    .catch(function (error) {
+      response.json(error);
+    });
+});
+
+// careRequest 게시글 삭제 기능
+webServer.get('/careRequestDelete.json', function (request, response) {
+  let queryParam = [request.query['care_request_number']];
+  console.log(request.query);
+
+  const queryResult = MysqlConnection.queryExcute(`
+    DELETE
+    FROM
+      care_request_bbs
+    WHERE
+      care_request_number = ?
+  `,queryParam);
+
+  queryResult.then(function (result) {
+    console.log(result.rows);
+    response.json(result.rows);
+  }).catch(function (error) {
+    console.log('error : '+ error);
+    response.json(error)
+  })
+});
