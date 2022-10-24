@@ -12,13 +12,13 @@ export default function Nav() {
           <Link to="/"><HomeRoundedIcon className="icon"/><span className="menu"> Home</span></Link>
         </li>
         <li>
-          <Link to="/pages/petregister"><PetsRoundedIcon className="icon" /><span className="menu"> Pet</span></Link>
+          <Link to="/pages/petregister"><PetsRoundedIcon className="icon" /><span className="menu">펫등록</span></Link>
         </li>
         <li>
           <Link to="/pages/register">회원가입</Link>
         </li>
         <li>
-          <Link>서미스매칭</Link>
+          <Link>서비스매칭</Link>
         </li>
       </ul>
     </nav>

@@ -2,7 +2,7 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 0.5fr 2fr 0fr;
+    grid-template-columns: 0.3fr 2.7fr 0fr;
     grid-template-rows: 0.2fr 2.6fr 0.2fr;
     grid-template-areas:
         "header header header"
@@ -12,7 +12,7 @@
 
 header{
     width: 100%;
-    background-color: #222222;
+    background-color: #7e6b5f;
     padding: 1rem;
     grid-area: header;
 }
@@ -32,11 +32,13 @@ nav > ul > li{
     padding: 1rem;
     display: flex;
     align-items: center;
+    font-size: large;
+    font-family: monospace;
 }
 
 li:hover a {
     font-weight: bold;
-    color: blue;
+    color: brown;
 }
 
 footer{
@@ -48,14 +50,21 @@ footer{
 }
 
 .th-style{
-    background-color: skyblue;
+    background-color: rgb(163, 151, 139);
     padding: 1rem;
 }
 
 td{
     padding: 1rem;
+    text-align: center;
 }
 
 tr.tr-hover:hover{
-    background-color: #6799FF;
+    background-color: #b0b0b0;
+}
+
+.detail-style{
+    padding : 10px solid black;
+    font-size: small;
+    margin : 20px;
 }

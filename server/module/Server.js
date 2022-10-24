@@ -1,6 +1,10 @@
 const express = require("express");
 const webServer = express();
 
+const session = require("express-session");
+
+const MemoryStore = require('memorystore')(session);
+
 const { BASE_DIR } = require("../../Global");
 
 console.log("BASE_DIR : ", BASE_DIR);
@@ -11,6 +15,16 @@ webServer.use(express.urlencoded({ extended: false }));
 
 /************* DB 연결 테스트 (시작) *************/
 const MysqlConnection = require("../module/db/MysqlConnection");
+
+webServer.use(session({
+  secret: 'session-test',
+  resave: false,
+  saveUninitialized: true,
+  store: new MemoryStore({checkPeriod:1000*60*60*2}),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 2
+  },
+}));
 
 //비동기처리 : 오래걸리는 작업은 나중으로 미뤄놀고 백그라운드에서 처리 후, 결과를 응답해줌
 // 비동기 처리 결과 받는 방범
@@ -37,12 +51,93 @@ webServer.listen(8080, function () {
   console.log("8080Port Nodejs Express를 활용한 Web Server 구동");
 });
 
-webServer.get("/", function (request, response) {
-  console.log("/ request");
+webServer.get('/', function (request, response) {
+  console.log('/ request session : ', request.session);
+  if (request.session['user_id'] == undefined || request.session['user_id'] == null) {
+    response.redirect('/login.html');
+  } else {
+    response.sendFile(`${BASE_DIR}/client/views/index.html`);
+  }
+});
+
+//로그인
+webServer.get('/login.html', function (request, response) {
+  console.log('/login.html request session : ', request.session);
   //response.send('text response');
   //response.sendFile(BASE_DIR + '/client/views/index.html');
-  response.sendFile(`${BASE_DIR}/client/views/index.html`);
+  //response.sendFile(`${BASE_DIR}/client/views/login.html`);
+  if(request.session['user_id'] == undefined || request.session['user_id'] == null) {
+    response.sendFile(`${BASE_DIR}/client/views/login.html`);
+  }else{
+    response.redirect('/');
+  }
 });
+//로그인 데이터
+webServer.post('/login.json', function (request, response) {
+  console.log('/login.json request session : ', request.session);
+
+  let queryParam=[
+    request.body['user_id'],
+    request.body['password'],
+  ];
+
+  let queryResult = MysqlConnection.queryExcute(`
+    SELECT
+      COUNT(0) AS count
+    FROM
+      user
+    WHERE
+      user_id = ?
+    AND
+      pw = ?
+  `, queryParam);
+
+  queryResult.then(function (result) {
+    if (result.rows[0].count > 0){
+      request.session['user_id'] = request.body['user_id'];
+      try{
+        request.session.save(function () {
+          response.json({isSuccess: true, message: '로그인 성공'});
+        })
+      }catch (e) {
+        response.json({isSuccess: false, message: '로그인 처리 에러'});
+      }
+    }else{
+      response.json({isSuccess: false, message:'아이디와 비밀번호를 확인해주세요'})
+    }
+  }).catch(function (error) {
+    console.log('error : ',error);
+    response.json(error);
+  });
+});
+
+//로그아웃
+webServer.post('/logout.json', function (request, response) {
+  console.log('/logout.json request session : ', request.session);
+    /*request.session['user_id']=null;
+    try{
+      request.session.save(function () {
+        response.json({isSuccess: true, message: '로그아웃 성공'});
+      })
+    }catch (e) {
+       response.json({isSuccess: false, message: '로그아웃 처리 에러'});
+    }*/
+    //Express session 제거(단, 제거가 완료된 후, 서버에 다시 접근하면 새로운 세션이 생김)
+    try {
+      request.session.destroy(function(err){
+        console.log('session destroy error : ', err);
+        if (err != undefined || err != null) {
+          response.json({isSuccess: false, message: '로그아웃 처리 에러'});
+        } else {
+          response.json({isSuccess: true, message: '로그아웃 성공'});
+        }
+      });
+    } catch (e) {
+      console.log('session destory error23 : ', err);
+      response.json({isSuccess: false, message: '로그아웃 처리 에러'});
+    }
+});
+
 
 webServer.get("/client/build/bundle.js", function (request, response) {
   console.log("/client/build/bundle.js request");
@@ -87,7 +182,7 @@ webServer.post("/careRequestInsert.json", function (request, response) {
       , ?
       , ?
       , NOW()
-      , 'test_user'
+      , '${request.session['user_id']}'
   ) 
   `,
     queryParam
@@ -206,3 +301,12 @@ webServer.get('/careRequestDelete.json', function (request, response) {
     response.json(error)
   })
 });
+
+/**
+ * @author : 최정우
+ * @since : 2022.09.20
+ * @dscription : ROOT URL, Router's, 화면요청 URL 등.. 이 외 나머지 정적 자원에 대한 처리 기능
+ */
+ webServer.get('*.*', function (request, response, next) {
+  response.sendFile(`${BASE_DIR}${request.params['0']}.${request.params['1']}`);
+})

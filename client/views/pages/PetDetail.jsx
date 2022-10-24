@@ -1,7 +1,8 @@
-import React,{useEffect,useState} from 'react'
+import React,{useState} from 'react'
 import styled from 'styled-components';
 import Button from "../components/ui/Button.jsx";
 import { useLocation,useNavigate } from 'react-router-dom';
+import '../../resources/main.css';
 
 const PetDetail= () => {
 
@@ -87,44 +88,44 @@ const PetDetail= () => {
   return (
     <>
         <FormStyled>
-      <div>
+      <div className='detail-style'>
         <label>제목</label>:
         <span>{careRequest.care_request_title}</span>
       </div>
-      <div>
+      <div className='detail-style'>
         <label>내용</label>:
         <span>{careRequest.care_request_content}</span>
       </div>
-      <div>
+      <div className='detail-style'>
         <label>이름</label>:
         <span>{careRequest.pet_name}</span>
       </div>
-      <div>
+      <div className='detail-style'>
         <label>나이</label>:
         <span>{careRequest.pet_age}</span>
       </div>
-      <div>
+      <div className='detail-style'>
         <label>성별</label>:
         <span>{careRequest.pet_sex}</span>
       </div>
-      <div>
+      <div className='detail-style'>
         <label>동물종</label>:
         <span>{careRequest.pet_animal_type}</span>
               </div>
-      <div>
+      <div className='detail-style'>
         <label>품종</label>:
         <span>{careRequest.pet_animal_kind}</span>
       </div>
-      <div>
+      <div className='detail-style'>
         <label>등록일</label>:
         <span>{careRequest.matching_datetime}</span>
       </div>
-      <div>
+      <div className='detail-style'>
         <label>등록자</label>:
         <span>{careRequest.care_provide_user_id}</span>
       </div>
 
-      <Button color={"#47B5FF"} title={"목록으로"} onClick={goPetListPage}/>
+      <Button color={"#skyblue"} title={"목록으로"} onClick={goPetListPage}/>
       <Button color={"#F2CB61"} title={"수정"} onClick={goPetUpdatePage}/>
       <Button color={"#F15F5F"} title={"삭제"} onClick={careRequestDelete}/>
     </FormStyled>

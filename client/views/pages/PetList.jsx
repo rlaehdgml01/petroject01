@@ -3,6 +3,7 @@ import Button from "../components/ui/Button.jsx";
 import Table from "../components/ui/Table.jsx";
 import { Link,useNavigate } from "react-router-dom";
 
+
 export default function PetList() {
   const [petListData, setPetListData] = React.useState([]);
 
@@ -49,9 +50,9 @@ export default function PetList() {
 
   return (
     <div>
-      <Table data={petListData} header={petHeaderList} onClick={goPetDetailPage}/>
+      <Table data={petListData} header={petHeaderList} onClick={goPetDetailPage}/><br/>
       <Link to="/pages/petregister">
-        <Button color={"#47B5FF"} title={"게시물 등록"} />
+        <Button color={"beige"} title={"게시물 등록"}/>
       </Link>
     </div>
   );

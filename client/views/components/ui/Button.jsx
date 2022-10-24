@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function Button({ title, color, onClick }) {
+export default function Button({ title, color, onClick}) {
   return (
     <div className="btn">
       <ButtonStyled onClick={onClick} color={color}>
@@ -14,4 +14,7 @@ export default function Button({ title, color, onClick }) {
 const ButtonStyled = styled.button`
   border: none;
   background-color: ${({ color }) => color};
+  border-radius: 10px;
+  font-size:25px;
+  
 `;

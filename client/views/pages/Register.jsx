@@ -1,12 +1,9 @@
 import React, { useRef } from "react";
-import Button from "../components/ui/Button.jsx";
+import { Box } from "@mui/material";
 
 export default function Register() {
   const id = useRef();
   const password = useRef();
-  const checkId = () => {
-
-  }
   /* const checkId = () => {
     fetch(url).then((response) => {
       console.log(response.data)
@@ -27,20 +24,21 @@ export default function Register() {
     }).then((res) => console.log(res.json()))
   } */
   return (
-    <div>
+    <Box maxWidth='sm'>
       <label>ID</label>
       <input ref={id} type="text" placeholder="아이디를 입력하세요." minLength={6} />
-      <Button onClick={checkId} title={"아이디중복검사"} />
+      <button>아이디 중복검사</button><br/>
       <label>Password</label>
-      <input ref={password} type="text" minLength={13} />
+      <input ref={password} type="text" placeholder="비밀번호를 입력하세요." minLength={13} />
       <label>Password 확인</label>
       <input type="text" minLength={13} />
       <label>이름</label>
-      <input type="text" />
+      <input type="text" placeholder="성함을 입력해 주세요."/>
       <label>연락처</label>
-      <input type="number" />
+      <input type="text" />
       <label>생년월일</label>
       <input type="date" />
-    </div>
+      <button type="submit">가입</button>
+    </Box>
   );
 }
